@@ -5,13 +5,13 @@ controllers:
     type: attribute
 
 app_login:
-    path: /login
+    path: security/login
     controller: App\Controller\SecurityController::login
 
 app_logout:
-    path: /logout
+    path: security/logout
     controller: App\Controller\SecurityController::logout
 
 app_register:
-    path: /register
+    path: security/register
     controller: App\Controller\SecurityController::register

@@ -29,7 +29,7 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     /**
@@ -182,7 +182,7 @@ class Product
         return $this;
     }
 
-    #[ORM\preRemove]
+    #[ORM\PreRemove]
     public function deleteImage(){
         if($this->image != null){
             unlink(__DIR__.'/../../public/images/products/'.$this->image);

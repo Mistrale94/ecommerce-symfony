@@ -2,77 +2,75 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\CartContent;
-use App\Form\CartContentType;
-use App\Repository\CartContentRepository;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
-#[Route('/cart/content')]
+/**
+ * @Route("/cart/content")
+ */
+#[Route('/cart-content')]
 class CartContentController extends AbstractController
 {
-    #[Route('/', name: 'app_cart_content_index', methods: ['GET'])]
-    public function index(CartContentRepository $cartContentRepository): Response
+    /**
+     * @Route("/add/{productId}", name="cart_content_add", methods={"GET", "POST"})
+     */
+    public function addAction(int $productId, EntityManagerInterface $em): Response
     {
-        return $this->render('cart_content/index.html.twig', [
-            'cart_contents' => $cartContentRepository->findAll(),
-        ]);
-    }
 
-    #[Route('/new', name: 'app_cart_content_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CartContentRepository $cartContentRepository): Response
-    {
-        $cartContent = new CartContent();
-        $form = $this->createForm(CartContentType::class, $cartContent);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $cartContentRepository->save($cartContent, true);
-
-            return $this->redirectToRoute('app_cart_content_index', [], Response::HTTP_SEE_OTHER);
+        $product = $em->getRepository(Product::class)->find($productId);
+        if (!$product) {
+            throw $this->createNotFoundException('Produit introuvable.');
         }
 
-        return $this->renderForm('cart_content/new.html.twig', [
-            'cart_content' => $cartContent,
-            'form' => $form,
-        ]);
-    }
+        $user = $this->getUser();
 
-    #[Route('/{id}', name: 'app_cart_content_show', methods: ['GET'])]
-    public function show(CartContent $cartContent): Response
-    {
-        return $this->render('cart_content/show.html.twig', [
-            'cart_content' => $cartContent,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_cart_content_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, CartContent $cartContent, CartContentRepository $cartContentRepository): Response
-    {
-        $form = $this->createForm(CartContentType::class, $cartContent);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $cartContentRepository->save($cartContent, true);
-
-            return $this->redirectToRoute('app_cart_content_index', [], Response::HTTP_SEE_OTHER);
+        $cart = $em->getRepository(Cart::class)->findOneBy(['user' => $user, 'state' => false]);
+        if (!$cart) {
+            $cart = new Cart();
+            $cart->setUser($user);
+            $cart->setState(false);
+            $cart->setDate(new \DateTime());
+            $em->persist($cart);
         }
 
-        return $this->renderForm('cart_content/edit.html.twig', [
-            'cart_content' => $cartContent,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_cart_content_delete', methods: ['POST'])]
-    public function delete(Request $request, CartContent $cartContent, CartContentRepository $cartContentRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$cartContent->getId(), $request->request->get('_token'))) {
-            $cartContentRepository->remove($cartContent, true);
+        $cartContent = $em->getRepository(CartContent::class)->findOneBy(['cart' => $cart, 'product' => $product]);
+        if (!$cartContent) {
+            $cartContent = new CartContent();
+            $cartContent->setCart($cart);
+            $cartContent->setProduct($product);
+            $cartContent->setQuantity(1);
+            $cartContent->setDate(new \DateTime());
+            $em->persist($cartContent);
+        } else {
+            $cartContent->setQuantity($cartContent->getQuantity() + 1);
         }
 
-        return $this->redirectToRoute('app_cart_content_index', [], Response::HTTP_SEE_OTHER);
+        $em->flush();
+
+        return $this->redirectToRoute('cart_show');
+    }
+
+    /**
+     * @Route("/remove/{cartContentId}", name="cart_content_remove", methods={"GET", "POST"})
+     */
+    public function removeAction(int $cartContentId): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $cartContent = $em->getRepository(CartContent::class)->find($cartContentId);
+        if (!$cartContent) {
+            throw $this->createNotFoundException('Contenu du panier introuvable.');
+        }
+
+        $em->remove($cartContent);
+        $em->flush();
+
+        return $this->redirectToRoute('cart_show');
     }
 }

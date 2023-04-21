@@ -36,7 +36,13 @@
 
     <a href="{{ path('app_product_index') }}">back to list</a>
 
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+    {# <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a> #}
 
-    {{ include('product/_delete_form.html.twig') }}
+    {# {{ include('product/_delete_form.html.twig') }} #}
+
+    {# Add to Cart Button #}
+    <form method="post" action="{{ path('cart_content_add', {'productId': product.id}) }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+    </form>
 {% endblock %}
