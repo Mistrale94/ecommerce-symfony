@@ -26,6 +26,10 @@ class CartContentController extends AbstractController
         $product = $em->getRepository(Product::class)->find($productId);
         if (!$product) {
             throw $this->createNotFoundException('Produit introuvable.');
+        } else if ($product->getStock() <= 0) {
+            throw $this->createNotFoundException('Produit en rupture de stock.');
+        } else if ($product->getStock() >= 1) {
+            $product->setStock($product->getStock() - 1);
         }
 
         $user = $this->getUser();
