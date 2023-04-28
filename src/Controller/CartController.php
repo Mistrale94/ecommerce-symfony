@@ -65,20 +65,20 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_show');
     }
 
-    #[Route('/remove/{cartContentId}', name: 'cart_remove')]
-    public function removeFromCart(int $cartContentId): Response
-    {
-        $cartContent = $this->entityManager->getRepository(CartContent::class)->find($cartContentId);
+    // #[Route('/remove/{cartContentId}', name: 'cart_remove')]
+    // public function removeFromCart(int $cartContentId): Response
+    // {
+    //     $cartContent = $this->entityManager->getRepository(CartContent::class)->find($cartContentId);
 
-        if (!$cartContent) {
-            throw $this->createNotFoundException('Element du panier introuvable');
-        }
+    //     if (!$cartContent) {
+    //         throw $this->createNotFoundException('Element du panier introuvable');
+    //     }
 
-        $this->entityManager->remove($cartContent);
-        $this->entityManager->flush();
+    //     $this->entityManager->remove($cartContent);
+    //     $this->entityManager->flush();
 
-        return $this->redirectToRoute('cart_show');
-    }
+    //     return $this->redirectToRoute('cart_show');
+    // }
 
     #[Route('/', name: 'cart_show')]
     public function showCart(): Response

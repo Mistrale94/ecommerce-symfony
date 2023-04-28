@@ -27,7 +27,7 @@
                     <td>{{ product.price }} €</td>
                     <td>{{ rowTotal }} €</td>
                     <td>
-                        <a href="{{ path('cart_remove', {'cartContentId': cartContent.id}) }}" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('cart_content_remove', {'cartContentId': cartContent.id}) }}" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -41,5 +41,4 @@
         </tfoot>
     </table>
 
-    {# <a href="{{ path('checkout') }}" class="btn btn-primary">Payer</a> #}
 {% endblock %}
