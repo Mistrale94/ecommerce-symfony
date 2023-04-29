@@ -1,24 +1,39 @@
+$background-color: #1a1a1a;
+$text-color: #ebebeb;
+$primary-color: #ec146e;
+$secondary-color: #9c1770;
+$light-gray: #ebebeb;
+$table-bg-color: #ebebeb;
+$table-text-color: #1a1a1a;
+$table-header-bg-color: #9c1770;
+$table-header-text-color: #ebebeb;
+$table-hover-bg-color: darken($table-bg-color, 5%);
+$btn-bg-color: #ec146e;
+$btn-hover-bg-color: darken($btn-bg-color, 10%);
+$btn-text-color: #ebebeb;
+$title-color: $text-color;
 body {
     max-width: 1400px;
     padding: 0 20px;
     margin: auto;
-    background-color: #1a1a1a;
+    background-color: $background-color;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    position: relative;
 }
 
 h1,
 h2,
 h3,
-h3,
+h4,
 h5 {
-    color: #ebebeb;
-    font-family: Arial, Helvetica, sans-serif;
+    color: $text-color;
 }
 
 .back {
-    color: #ebebeb;
+    color: $text-color;
     text-transform: none;
     text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .products {
@@ -34,13 +49,13 @@ h5 {
     h3,
     h4,
     h5 {
-        color: #1a1a1a;
+        color: $background-color;
         margin-top: 5px;
     }
     min-width: 300px;
     width: 33%;
     max-width: 22%;
-    background: #ebebeb;
+    background: $light-gray;
     padding: 15px;
     border-radius: 10px;
     &--title {
@@ -70,12 +85,200 @@ h5 {
     }
     &--plus {
         text-decoration: none;
-        color: #9c1770;
+        color: $primary-color;
         font-weight: 600;
         transition: 0.4s;
         font-size: 18px;
         &:hover {
-            color: #ec146e;
+            color: darken($primary-color, 10%);
         }
+    }
+}
+
+.product-infos {
+    color: black;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    background: $light-gray;
+    padding: 70px 50px;
+    margin: 15px 0;
+    p {
+        margin: 0;
+    }
+    &-top {
+        width: 100%;
+        h2 {
+            color: $background-color;
+            margin-top: 0;
+            font-size: 28px;
+        }
+    }
+    &-left {
+        width: 49%;
+        height: 500px;
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    &-right {
+        width: 49%;
+        font-size: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        p {
+            font-weight: 600;
+            color: $primary-color;
+            font-size: 24px;
+        }
+        &--description,
+        &--bottom {
+            div {
+                font-size: 29px;
+            }
+            .card-product--plus {
+                border: none;
+                background: none;
+                cursor: pointer;
+                margin: 0;
+                padding: 0;
+            }
+        }
+        &--bottom {
+            p,
+            div {
+                margin: 35px 0;
+            }
+        }
+    }
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    color: $table-text-color;
+    background-color: $table-bg-color;
+    border-radius: 10px;
+    overflow: hidden;
+    thead {
+        background-color: $table-header-bg-color;
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            color: $table-header-text-color;
+            border-bottom: 1px solid $table-hover-bg-color;
+        }
+    }
+    tbody tr {
+        transition: background-color 0.2s;
+        &:hover {
+            background-color: $table-hover-bg-color;
+        }
+    }
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid $table-bg-color;
+    }
+    tfoot {
+        background-color: $table-bg-color;
+        th {
+            font-weight: bold;
+        }
+    }
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    color: $btn-text-color;
+    background-color: $btn-bg-color;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    &:hover {
+        background-color: $btn-hover-bg-color;
+    }
+}
+
+.btn-danger {
+    background-color: $primary-color;
+}
+
+h1 {
+    color: $title-color;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    max-width: 320px;
+    padding: 70px 50px;
+    background-color: #ebebeb;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    h1 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: $table-text-color;
+        text-align: center;
+    }
+    label {
+        margin-top: 10px;
+        display: block;
+        font-weight: bold;
+    }
+    input {
+        margin-top: 5px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        background-color: #fff;
+        color: $table-text-color;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 5px 1px $primary-color;
+        }
+    }
+    button {
+        margin-top: 15px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: $primary-color;
+        color: $text-color;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        order: 10;
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+    }
+    .alert {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #f2dede;
+        border-radius: 5px;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+        font-size: 14px;
     }
 }

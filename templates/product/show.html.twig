@@ -13,16 +13,24 @@
     </div>
 
     <div class="product-infos-right">
-        <p>{{ product.description }}</p>
+        <div class="product-infos-right--top">
+            <div class="product-infos-right--description">
+                {{ product.description|raw }}
+            </div>
 
-        <p>{{ product.price }}</p>
+        </div>
+        <div class="product-infos-right--bottom">
+            <p class="product-infos-right--bottom--stock">Stock disponible : {{ product.stock }}</p>
 
-        <p>{{ product.stock }}</p>
+            <div class="card-product--price">
+                {{ product.price }} €
+            </div>
 
-        <form method="post" action="{{ path('cart_content_add', {'productId': product.id}) }}">
-            <input type="hidden" name="quantity" value="1">
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-        </form>
+            <form method="post" action="{{ path('cart_content_add', {'productId': product.id}) }}">
+                <input type="hidden" name="quantity" value="1">
+                <button class="card-product--plus" type="submit" class="btn btn-primary">Ajouter au panier</button>
+            </form>
+        </div>
     </div>
 </div>
 
