@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/cart')]
+
 class CartController extends AbstractController
 {
     private $entityManager;
@@ -24,7 +24,7 @@ class CartController extends AbstractController
         $this->cartRepository = $cartRepository;
     }
 
-    #[Route('/add/{productId}', name: 'cart_add')]
+    #[Route('/cart/add/{productId}', name: 'cart_add')]
     public function addToCart(int $productId): Response
     {
         $user = $this->getUser();
@@ -80,7 +80,7 @@ class CartController extends AbstractController
     //     return $this->redirectToRoute('cart_show');
     // }
 
-    #[Route('/', name: 'cart_show')]
+    #[Route('/cart', name: 'cart_show')]
     public function showCart(): Response
     {
         $user = $this->getUser();

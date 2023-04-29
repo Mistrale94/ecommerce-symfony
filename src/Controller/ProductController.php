@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/')]
+
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'app_product_index', methods: ['GET'])]

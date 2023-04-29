@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-#[Route('/cart-content')]
+
 class CartContentController extends AbstractController
 {
 
-    #[Route("/add/{productId}", name:"cart_content_add", methods:["GET", "POST"])]
+    #[Route("/cart-content/add/{productId}", name:"cart_content_add", methods:["GET", "POST"])]
     public function addAction(int $productId, EntityManagerInterface $em): Response
     {
 
@@ -56,7 +56,7 @@ class CartContentController extends AbstractController
         return $this->redirectToRoute('cart_show');
     }
 
-    #[Route("/remove/{cartContentId}", name:"cart_content_remove", methods:["GET", "POST"])]
+    #[Route("/cart-content/remove/{cartContentId}", name:"cart_content_remove", methods:["GET", "POST"])]
     public function removeAction(int $cartContentId, EntityManagerInterface $em): Response
     {
         $cartContent = $em->getRepository(CartContent::class)->find($cartContentId);
