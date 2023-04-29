@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %} {% block title %}Product index{% endblock %} {% block body %}
-<h1>Tous les produits</h1>
+<h1>{{ 'product.title'|trans }}</h1>
 <div class="products">
 
     {% for product in products %}

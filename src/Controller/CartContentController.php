@@ -11,21 +11,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-/**
- * @Route("/cart/content")
- */
 #[Route('/cart-content')]
 class CartContentController extends AbstractController
 {
-    /**
-     * @Route("/add/{productId}", name="cart_content_add", methods={"GET", "POST"})
-     */
+
+    #[Route("/add/{productId}", name:"cart_content_add", methods:["GET", "POST"])]
     public function addAction(int $productId, EntityManagerInterface $em): Response
     {
 
         $product = $em->getRepository(Product::class)->find($productId);
         if (!$product) {
             throw $this->createNotFoundException('Produit introuvable.');
+        } else if ($product->getStock() <= 0) {
+            throw $this->createNotFoundException('Produit en rupture de stock.');
+        } else if ($product->getStock() >= 1) {
+            $product->setStock($product->getStock() - 1);
         }
 
         $user = $this->getUser();
@@ -56,21 +56,25 @@ class CartContentController extends AbstractController
         return $this->redirectToRoute('cart_show');
     }
 
-    /**
-     * @Route("/remove/{cartContentId}", name="cart_content_remove", methods={"GET", "POST"})
-     */
-    public function removeAction(int $cartContentId): Response
+    #[Route("/remove/{cartContentId}", name:"cart_content_remove", methods:["GET", "POST"])]
+    public function removeAction(int $cartContentId, EntityManagerInterface $em): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
         $cartContent = $em->getRepository(CartContent::class)->find($cartContentId);
         if (!$cartContent) {
             throw $this->createNotFoundException('Contenu du panier introuvable.');
+        } else if ($cartContent->getQuantity() > 1) {
+            $cartContent->getProduct()->setStock($cartContent->getProduct()->getStock() + 1);
+            $cartContent->setQuantity($cartContent->getQuantity() - 1);
+            $em->persist($cartContent);
+            $em->flush();
+        } else if ($cartContent->getQuantity() == 1) {
+            $cartContent->getProduct()->setStock($cartContent->getProduct()->getStock() + 1);
+            $em->remove($cartContent);
+            $em->flush();
         }
-
-        $em->remove($cartContent);
-        $em->flush();
 
         return $this->redirectToRoute('cart_show');
     }
+
+    
 }
