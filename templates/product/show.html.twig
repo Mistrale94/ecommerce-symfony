@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %} {% block title %}Product{% endblock %} {% block body %}
-<h1>Détail du produit</h1>
+{% extends 'base.html.twig' %} {% block title %}{{'product.product'|trans}}{% endblock %} {% block body %}
+<h1>{{'product.product_details'|trans}}</h1>
 
-<a class="back" href="{{ path('app_product_index') }}">&lsaquo; Revenir aux produits</a>
+<a class="back" href="{{ path('app_product_index') }}">&lsaquo; {{'product.back_to_products'|trans}}</a>
 
 <div class="product-infos">
     <div class="product-infos-top">
@@ -20,7 +20,7 @@
 
         </div>
         <div class="product-infos-right--bottom">
-            <p class="product-infos-right--bottom--stock">Stock disponible : {{ product.stock }}</p>
+            <p class="product-infos-right--bottom--stock">{{'product.available_stock'|trans}} : {{ product.stock }}</p>
 
             <div class="card-product--price">
                 {{ product.price }} €
@@ -28,7 +28,9 @@
 
             <form method="post" action="{{ path('cart_content_add', {'productId': product.id}) }}">
                 <input type="hidden" name="quantity" value="1">
-                <button class="card-product--plus" type="submit" class="btn btn-primary">Ajouter au panier</button>
+                {% if app.user %}
+                    <button class="card-product--plus" type="submit" class="btn btn-primary">{{'product.add_to_cart'|trans}}</button>
+                {% endif %}
             </form>
         </div>
     </div>

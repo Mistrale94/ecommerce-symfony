@@ -17,7 +17,7 @@
         {#
         <p>{{ product.stock }}</p> #}
 
-        <a class="card-product--plus" href="{{ path('app_product_show', {'id': product.id}) }}">En savoir plus</a>
+        <a class="card-product--plus" href="{{ path('app_product_show', {'id': product.id}) }}">{{'product.learn_more'|trans}}</a>
     </div>
 
     {% else %}

@@ -1,8 +1,27 @@
 product:
   title: Liste des produits
+  learn_more: En savoir plus
+  product_details: Détails du produit
+  back_to_products: Revenir aux produits
+  product: Produit
+  available_stock: Stock disponible
+  add_to_cart: Ajouter au panier
 
-Name: Nom
-Description: Description
-Price : Prix
-Stock : Stock
-Image : Image
+login:
+  registration: Inscription
+  email: Email
+  password: Mot de passe
+  full_name: Nom complet
+  register: S'inscrire
+  sign_in: Se connecter
+  login: Connexion
+
+cart:
+  cart: Panier
+  back_to_products: Revenir aux produits
+  delete: Supprimer
+  product: Produit
+  quantity: Quantité
+  amount: Montant
+  unit_price: Prix unitaire
+  total: Total

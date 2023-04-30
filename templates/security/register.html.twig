@@ -1,13 +1,13 @@
-{% extends 'base.html.twig' %} {% block title %}Inscription{% endblock %} {% block body %}
+{% extends 'base.html.twig' %} {% block title %}{{'login.registration'|trans}}{% endblock %} {% block body %}
 <form class="login-form" method="post" action="{{ path('app_register') }}">
-    <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+    <h1 class="h3 mb-3 font-weight-normal">{{'login.registration'|trans}}</h1>
 
     {{ form_start(registrationForm) }}
-    <label for="{{ registrationForm.email.vars.id }}">Email</label> {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'autocomplete': 'email', 'required': 'required', 'autofocus': 'autofocus'}}) }}
+    <label for="{{ registrationForm.email.vars.id }}">{{'login.email'|trans}}</label> {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'autocomplete': 'email', 'required': 'required', 'autofocus': 'autofocus'}}) }}
 
-    <label for="{{ registrationForm.password.vars.id }}">Password</label> {{ form_widget(registrationForm.password, {'attr': {'class': 'form-control', 'autocomplete': 'new-password', 'required': 'required'}}) }} {# Ajoutez d'autres champs si nécessaire
+    <label for="{{ registrationForm.password.vars.id }}">{{'login.password'|trans}}</label> {{ form_widget(registrationForm.password, {'attr': {'class': 'form-control', 'autocomplete': 'new-password', 'required': 'required'}}) }} {# Ajoutez d'autres champs si nécessaire
     #}
 
-    <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button> {{ form_end(registrationForm) }}
+    <button class="btn btn-lg btn-primary" type="submit">{{'login.register'|trans}}</button> {{ form_end(registrationForm) }}
 </form>
 {% endblock %}
