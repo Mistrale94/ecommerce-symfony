@@ -1,2 +1,2 @@
-Alexis Novinc
-Quentin Lapujade
+Alexis NOVINC
+Quentin LAPUJADE
