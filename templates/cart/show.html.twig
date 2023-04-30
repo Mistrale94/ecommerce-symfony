@@ -17,10 +17,10 @@
     <tbody>
         {% set total = 0 %} {% for cartContent in cart %} {% set product = cartContent.product %} {% set rowTotal = cartContent.quantity * product.price %} {% set total = total + rowTotal %}
         <tr>
-            <td>{{ product.name }}</td>
-            <td>{{ cartContent.quantity }}</td>
-            <td>{{ product.price }} €</td>
-            <td>{{ rowTotal }} €</td>
+            <td data-label="{{'cart.product'|trans}}">{{ product.name }}</td>
+            <td data-label="{{'cart.quantity'|trans}}">{{ cartContent.quantity }}</td>
+            <td data-label="{{'cart.unite_price'|trans}}">{{ product.price }} €</td>
+            <td data-label="{{'cart.amount'|trans}}">{{ rowTotal }} €</td>
             <td>
                 <a href="{{ path('cart_content_remove', {'cartContentId': cartContent.id}) }}" class="btn btn-danger">{{'cart.delete'|trans}}</a>
             </td>
