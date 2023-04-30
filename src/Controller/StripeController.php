@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\CartContent;
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,24 +21,39 @@ class StripeController extends AbstractController
     }
 
     #[Route('/stripe/payment', name:'stripe_payment')]
-    public function payment(){
+    public function payment(EntityManagerInterface $entityManager){
         // Récupération de la clé API
         $stripeSecretKey = $this->getParameter('stripe_sk');
         // Initialisation de l'API Stripe
         \Stripe\Stripe::setApiKey($stripeSecretKey);
 
         try {
+
+            $cartContents = $entityManager->getRepository(CartContent::class)->findAll();
             // Faire calcul du panier (parcours des produits du panier et multiplication du prix unitaire par la quantité dans le panier)
-            $total = 2000; // centimes = 10€
+            $total = 0;
+            foreach ($cartContents as $cartContent) {
+                $product = $entityManager->getRepository(Product::class)->find($cartContent->getProduct()->getId());
+                $rowTotal = $product->getPrice() * $cartContent->getQuantity();
+                $total += $rowTotal;
+            }
+
+        // Convertir le total en centimes
+            $totalCents = $total * 100;
 
             // Create a PaymentIntent with amount and currency
             $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $total,
+                'amount' => $totalCents,
                 'currency' => 'eur',
                 'automatic_payment_methods' => [
                     'enabled' => true,
                 ],
             ]);
+
+            foreach ($cartContents as $cartContent) {
+                $entityManager->remove($cartContent);
+            }
+            $entityManager->flush();
 
             $output = [
                 'paymentIntent' => $paymentIntent,

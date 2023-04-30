@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Payment{% endblock %}
+{% block title %}{{'payment.payment'|trans}}{% endblock %}
 
 {% block body %}
+  <div class="content">
     <form id="payment-form">
       <div id="link-authentication-element">
         <!--Stripe.js injects the Link Authentication Element-->
@@ -16,6 +17,7 @@
       </button>
       <div id="payment-message" class="hidden"></div>
     </form>
+  </div>
 {% endblock %}
 
 {% block stylesheets %}

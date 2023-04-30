@@ -26,3 +26,8 @@ cart:
   unit_price: Prix unitaire
   total: Total
   pay: Payer
+
+payment:
+  payment: Paiement
+
+Home: Accueil
