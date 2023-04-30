@@ -25,3 +25,4 @@ cart:
   amount: Amount
   unit_price: Unit price
   total: Total
+  pay: Pay

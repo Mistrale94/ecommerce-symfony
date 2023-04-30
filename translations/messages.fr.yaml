@@ -25,3 +25,4 @@ cart:
   amount: Montant
   unit_price: Prix unitaire
   total: Total
+  pay: Payer

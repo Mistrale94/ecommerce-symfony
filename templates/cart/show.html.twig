@@ -9,7 +9,7 @@
         <tr>
             <th>{{'cart.product'|trans}}</th>
             <th>{{'cart.quantity'|trans}}</th>
-            <th>{{'cart.unite_price'|trans}}</th>
+            <th>{{'cart.unit_price'|trans}}</th>
             <th>{{'cart.amount'|trans}}</th>
             <th></th>
         </tr>
@@ -35,5 +35,6 @@
         </tr>
     </tfoot>
 </table>
+<a href="{{ path('app_stripe') }}">{{'cart.pay'|trans}}</a>
 
 {% endblock %}
